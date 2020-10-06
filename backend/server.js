@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const productRoutes = require('./routes/productRoutes');
 
 dotenv.config();
 
@@ -15,13 +16,7 @@ app.get('/', (req, res) => {
   res.send('root path in backend');
 });
 
-app.get('/products', (req, res) => {
-  res.json(products);
-});
-
-app.get('/products/:id', (req, res) => {
-  res.json(products.find((p) => p._id === req.params.id));
-});
+app.use('/api/products', productRoutes);
 
 const PORT = process.env.port || 5000;
 app.listen(PORT, () =>
