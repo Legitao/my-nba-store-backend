@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const products = require('./data/products');
+const sports_products = require('./data/sports_products');
 const users = require('./data/users');
 const ProductModel = require('./models/productModel');
 const UserModel = require('./models/userModel');
@@ -20,10 +21,14 @@ const importData = async () => {
 
     const adminUser = createdUsers[0]._id;
 
+    const sample_sportsProducts = sports_products.map((product) => {
+      return { ...product, user: adminUser };
+    });
+    await ProductModel.insertMany(sample_sportsProducts);
+
     const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser };
     });
-
     await ProductModel.insertMany(sampleProducts);
 
     console.log('Data Imported!');
