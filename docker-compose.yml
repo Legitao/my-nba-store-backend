@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nba-store-frontend:
+    # stdin_open: true # react exit bug
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: legitao.azurecr.io/my-nba-store_frontend
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    container_name: nba-store-frontend
+    volumes:
+      - /app/node_modules
+      # What it is doing: bind mount HOST directory to CONTAINER directory
+      # Benefits: changing source code in the host will be relected in the container, so webpage will update accordingly
+      # Otherwise: we need to rebuild the image to copy the updated source code into the container every time we modify the code
+      - ./frontend:/app
+  nba-store-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: legitao.azurecr.io/my-nba-store_backend
+    ports:
+      - '5000:5000'
+    restart: on-failure
+    container_name: nba-store-backend
+    volumes:
+      - /app/node_modules
+      # Inside the container, don't try to override this folder, just leave as is
+      - ./backend:/app
+    # Look at the server directory and copy everything into the app folder in the container
