@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 dotenv.config();
@@ -13,11 +14,15 @@ const app = express();
 
 app.use(cors());
 
+// use json body-parser to extract data to req.body
+app.use(express.json());
+
 //routes
 app.get('/', (req, res) => {
   res.send('root path in backend');
 });
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // 404 middleware, not technically a error handler
 app.use((req, res, next) => {
