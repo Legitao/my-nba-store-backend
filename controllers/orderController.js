@@ -54,7 +54,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to paid
-// @route   GET /api/orders/:id/pay
+// @route   PUT /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
@@ -78,4 +78,23 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addOrderItems, getOrderById, updateOrderToPaid };
+// @desc    Get logged in user orders
+// @route   GET /api/orders/orders-history
+// @access  Private
+const getOrdersHistory = asyncHandler(async (req, res) => {
+  // authMiddleware has put userId in req
+  const orders = await Order.find({ user: req.userId });
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});
+
+module.exports = {
+  addOrderItems,
+  getOrderById,
+  updateOrderToPaid,
+  getOrdersHistory,
+};
