@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema(
   {
-    name: {
+    userName: {
       type: String,
       required: true,
     },
@@ -12,7 +12,13 @@ const reviewSchema = mongoose.Schema(
     },
     comment: {
       type: String,
+      required: false,
+      default: '',
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'User',
     },
   },
   {

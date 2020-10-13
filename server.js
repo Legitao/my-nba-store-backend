@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
@@ -13,6 +14,7 @@ connectDB();
 
 const app = express();
 
+app.use(morgan('dev'));
 app.use(cors());
 
 // use json body-parser to extract data to req.body
