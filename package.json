@@ -7,7 +7,8 @@
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "data:import": "node seeder",
-    "data:destory": "node seeder -d"
+    "data:destory": "node seeder -d",
+    "deploy": "docker build -t legitao.azurecr.io/my-nba-store_backend . && docker push legitao.azurecr.io/my-nba-store_backend:latest"
   },
   "author": "",
   "license": "ISC",
